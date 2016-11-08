@@ -1,20 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everest</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.2.5/svg.min.js"></script>
-    <link rel="stylesheet" href="./main.css" type="text/css">
 </head>
 
 <body>
 
     <div id="everest"></div>
-<!--    <input id="scale" style="" type="range" min="0" max="100" value="0" step="0.1">-->
 
-<!--    <script src="./node_modules/valence/valence.js"></script>-->
-    <script src="./progressMap.js"></script>
-    <script src="./main.js"></script>
+    <!--
+    Progress Map module from Github repo.
+    https://github.com/byuicampuscd/progress-map
+    -->
+
+    <script src="./everest/progressMap.js"></script>
+
+    <!--
+    The Valence D2L template strings do not work with external script sources.  They need to be internal.
+    -->
+
+    <script>
+        window.addEventListener('load', function () {
+
+            function loadEverest(pointAccum) {
+
+                var perc = (pointAccum / 29035) * 100;
+
+                progressMap.startup("everest", perc);
+            }
+
+            $.getJSON('/d2l/api/le/1.8/{orgUnitId}/grades/values/myGradeValues/', function (grades) {
+
+                var pointAccum = 0,
+                    gradeArray = grades;
+
+                for (var i = 0; i < gradeArray.length; i++) {
+                    var temp = gradeArray[i].PointsNumerator;
+                    pointAccum += temp;
+                }
+
+                console.log("Total Points ", pointAccum);
+                loadEverest(pointAccum);
+            });
+
+        });
+    </script>
 </body>
+
 </html>

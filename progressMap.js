@@ -1,8 +1,8 @@
 /*jslint plusplus: true, browser: true, devel: true */
 /*global SVG*/
 var progressMap = (function () {
-   "use strict";
-   /* beautify preserve:start */
+    "use strict";
+    /* beautify preserve:start */
    //this is the locations of the badges on the map and other settings
    var pics = [
       {fileName: 'percentBadge05.png',  x: 400,   y: 670, dx: 0, dy: 0, scalePic: 0.15, animateScale: 2},
@@ -28,7 +28,7 @@ var progressMap = (function () {
    ],
       backgroundPic = {
          fileName: 'everest.jpg',
-         width: 1104,
+         width: '100%',
          height: 850
       },
       pathSettings = {
@@ -36,124 +36,124 @@ var progressMap = (function () {
          cssClass: "progressMapPath",
          style: "fill:none;stroke:#E71E25;stroke-width:4;stroke-miterlimit:10;"
       },
-      picLocation = "pictures/",
+      picLocation = "./everest/pictures/",
       pathLenth = 0,
       savedDivId;
 /* beautify preserve:end */
 
-   function makeBadges(draw, picIn, counter) {
+    function makeBadges(draw, picIn, counter) {
 
-      var image, groupMe;
-      image = draw.image(picLocation + picIn.fileName).loaded(function (loader) {
-         this.size(loader.width, loader.height);
-         this.center(0, 0);
-         this.scale(picIn.scalePic, picIn.scalePic);
-      });
+        var image, groupMe;
+        image = draw.image(picLocation + picIn.fileName).loaded(function (loader) {
+            this.size(loader.width, loader.height);
+            this.center(0, 0);
+            this.scale(picIn.scalePic, picIn.scalePic);
+        });
 
-      //move the group and then add the image
-      groupMe = draw.group().center(picIn.x, picIn.y).add(image);
-      groupMe.attr("id", 'pic' + counter);
-      groupMe.hide();
+        //move the group and then add the image
+        groupMe = draw.group().center(picIn.x, picIn.y).add(image);
+        groupMe.attr("id", 'pic' + counter);
+        groupMe.hide();
 
-      groupMe.on('goBackSmall', function () {
+        groupMe.on('goBackSmall', function () {
 
-         var startOpacity = this.opacity(),
-            startScale = this.transform('scaleX');
-         this.animate(700).move(picIn.x, picIn.y).during(function (pos, morph) {
-            this.opacity(morph(startOpacity, 1));
-            this.scale(morph(startScale, 1));
-         });
-      });
-
-      groupMe.mouseout(function () {
-         this.fire("goBackSmall");
-      });
-
-      groupMe.mouseover(function () {
-         var startScale = this.transform('scaleX');
-         if (this.transform("scaleX") === 1) {
-            this.front().animate(500).dmove(picIn.dx, picIn.dy).during(function (pos, morph) {
-               this.scale(morph(1, picIn.animateScale));
+            var startOpacity = this.opacity(),
+                startScale = this.transform('scaleX');
+            this.animate(700).move(picIn.x, picIn.y).during(function (pos, morph) {
+                this.opacity(morph(startOpacity, 1));
+                this.scale(morph(startScale, 1));
             });
-         }
-      });
+        });
 
-   }
+        groupMe.mouseout(function () {
+            this.fire("goBackSmall");
+        });
 
-   function changeIt(numIn) {
+        groupMe.mouseover(function () {
+            var startScale = this.transform('scaleX');
+            if (this.transform("scaleX") === 1) {
+                this.front().animate(500).dmove(picIn.dx, picIn.dy).during(function (pos, morph) {
+                    this.scale(morph(1, picIn.animateScale));
+                });
+            }
+        });
 
-      var path = document.querySelector("#" + savedDivId + " ." + pathSettings.cssClass),
-         percentComplete = numIn / 100,
-         picsToShow;
+    }
 
-      //update the line
-      path.style.strokeDashoffset = pathLenth * (1 - percentComplete);
+    function changeIt(numIn) {
 
-      //update the pictures
-      picsToShow = Math.floor(pics.length * percentComplete);
-      pics.forEach(function (picIn, i) {
-         var pic = SVG.get('pic' + i);
-         if (i < picsToShow && !pic.visible()) {
-            pic.front().center(552, 150).scale(2).opacity(0);
-            pic.show();
-            pic.fire('goBackSmall');
-         } else if (i >= picsToShow) {
-            pic.hide();
-         }
+        var path = document.querySelector("#" + savedDivId + " ." + pathSettings.cssClass),
+            percentComplete = numIn / 100,
+            picsToShow;
 
-      });
-   }
+        //update the line
+        path.style.strokeDashoffset = pathLenth * (1 - percentComplete);
 
-   function fillLine(percentComplete) {
+        //update the pictures
+        picsToShow = Math.floor(pics.length * percentComplete);
+        pics.forEach(function (picIn, i) {
+            var pic = SVG.get('pic' + i);
+            if (i < picsToShow && !pic.visible()) {
+                pic.front().center(552, 150).scale(2).opacity(0);
+                pic.show();
+                pic.fire('goBackSmall');
+            } else if (i >= picsToShow) {
+                pic.hide();
+            }
 
-      percentComplete /= 100;
-      var steps = 100,
-         length = 6000 * percentComplete,
-         timeChunk = length / steps,
-         i;
+        });
+    }
 
-      for (i = 1; i <= steps; ++i) {
-         window.setTimeout(changeIt, timeChunk * i, i * percentComplete);
+    function fillLine(percentComplete) {
 
-      }
-//      document.getElementById("scale").value = i * percentComplete;
+        percentComplete /= 100;
+        var steps = 100,
+            length = 6000 * percentComplete,
+            timeChunk = length / steps,
+            i;
 
-   }
+        for (i = 1; i <= steps; ++i) {
+            window.setTimeout(changeIt, timeChunk * i, i * percentComplete);
 
-   function mapStartUp(divIdIn, staringPathPercent) {
-      var draw, path, i;
-      //save for later
-      savedDivId = divIdIn;
+        }
+        //      document.getElementById("scale").value = i * percentComplete;
 
-      //get going
-      draw = SVG(divIdIn).size(backgroundPic.width, backgroundPic.height);
+    }
 
-      //background
-      draw.image(picLocation + backgroundPic.fileName);
+    function mapStartUp(divIdIn, staringPathPercent) {
+        var draw, path, i;
+        //save for later
+        savedDivId = divIdIn;
 
-      //line
-      draw.path(pathSettings.data)
-         .attr("class", pathSettings.cssClass)
-         .attr("style", pathSettings.style);
+        //get going
+        draw = SVG(divIdIn).size(backgroundPic.width, backgroundPic.height);
 
-      //setup line
-      path = document.querySelector("#" + divIdIn + " ." + pathSettings.cssClass);
-      pathLenth = path.getTotalLength();
-      path.style.strokeDasharray = pathLenth;
+        //background
+        draw.image(picLocation + backgroundPic.fileName);
 
-      //make the badges
-      for (i = 0; i < pics.length; ++i) {
-         makeBadges(draw, pics[i], i);
-      }
+        //line
+        draw.path(pathSettings.data)
+            .attr("class", pathSettings.cssClass)
+            .attr("style", pathSettings.style);
 
-      //set progress to starting percent
-      fillLine(staringPathPercent);
+        //setup line
+        path = document.querySelector("#" + divIdIn + " ." + pathSettings.cssClass);
+        pathLenth = path.getTotalLength();
+        path.style.strokeDasharray = pathLenth;
 
-   }
+        //make the badges
+        for (i = 0; i < pics.length; ++i) {
+            makeBadges(draw, pics[i], i);
+        }
 
-   return {
-      startup: mapStartUp,
-      update: changeIt
-   };
+        //set progress to starting percent
+        fillLine(staringPathPercent);
+
+    }
+
+    return {
+        startup: mapStartUp,
+        update: changeIt
+    };
 
 }());
