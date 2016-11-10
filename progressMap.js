@@ -28,8 +28,8 @@ var progressMap = (function () {
    ],
       backgroundPic = {
          fileName: 'everest.jpg',
-         width: '100%',
-         height: 850
+         width: 1149,
+         height: 717
       },
       pathSettings = {
          data: "M359.7,667.8l30.9-34.8l23.7-11.6h14.1l11.1-8.6l14.1-20.2l63-34.3l3.1-12.1l33-22.7l20.2-18.8c0,0,51.7-20,60.4-22.1l17.3-5.5l10.8-10.1l-15.4-4.5l24.4-8.6l17.1-2l16-13.4v-4.4h10.6c0,0,8.1-13.1,13.1-14.5l4-10l-8.1-13.1c0,0,10.1-36.6,16.9-43l10.8-5l3.5-17.5h10.1v-6l35.8-24.9l9.1-18l-13.1-7.9l9.1-4.7l-9.1-6l13.1-5.5l-9.1-5.5l12.1-6.2l-13.1-9.9l15.6-7.4l-13.1-7.6l6.6-3.9l9.1-4l-14.1-1.3l-14.6-15.6h-8.6l-22.4-22.7l-32-9.1l-17.1-3.6l-4-12.2l-44.4-14.8L622.1,90l-40.4-35.8l-28.9-4.3",
@@ -126,7 +126,7 @@ var progressMap = (function () {
         savedDivId = divIdIn;
 
         //get going
-        draw = SVG(divIdIn).size(backgroundPic.width, backgroundPic.height);
+        draw = SVG(divIdIn).size('100%', '100%').viewbox(0,0,backgroundPic.width, backgroundPic.height);
 
         //background
         draw.image(picLocation + backgroundPic.fileName);

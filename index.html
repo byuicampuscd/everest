@@ -25,6 +25,7 @@
     -->
 
     <script>
+
         window.addEventListener('load', function () {
 
             function loadEverest(pointAccum) {
@@ -34,13 +35,13 @@
                 progressMap.startup("everest", perc);
             }
 
-            $.getJSON('/d2l/api/le/1.8/{orgUnitId}/grades/values/myGradeValues/', function (grades) {
+            $.getJSON('/d2l/api/le/1.18/{orgUnitId}/grades/values/myGradeValues/', function (grades) {
 
                 var pointAccum = 0,
                     gradeArray = grades;
 
                 for (var i = 0; i < gradeArray.length; i++) {
-                    var temp = gradeArray[i].PointsNumerator;
+                    var temp = gradeArray[i].PointsNumerator || 0;
                     pointAccum += temp;
                 }
 
