@@ -36,7 +36,7 @@ var progressMap = (function () {
          cssClass: "progressMapPath",
          style: "fill:none;stroke:#E71E25;stroke-width:4;stroke-miterlimit:10;"
       },
-      picLocation = "./everest/pictures/",
+      picLocation = "/content/enforced/159097-Campus.2016.Fall.ENG107/everest/pictures/",
       pathLenth = 0,
       savedDivId;
 /* beautify preserve:end */
@@ -110,10 +110,13 @@ var progressMap = (function () {
         var steps = 100,
             length = 6000 * percentComplete,
             timeChunk = length / steps,
-            i;
+            i,
+            timeOut = window.oldSetTimeout || window.setTimeout;
+
+        /*The timeout variable is because D2L overrides the setTimeout method in JavaScript.*/
 
         for (i = 1; i <= steps; ++i) {
-            window.setTimeout(changeIt, timeChunk * i, i * percentComplete);
+            timeOut(changeIt, timeChunk * i, i * percentComplete);
 
         }
         //      document.getElementById("scale").value = i * percentComplete;
