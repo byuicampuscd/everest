@@ -53,26 +53,46 @@
 
             function loadEverest(pointAccum) {
 
-                var perc = (pointAccum / 29035) * 100;
+                console.log(pointAccum, pointAccum >= 17950, 29035 > pointAccum, 29035 > pointAccum && pointAccum >= 17950)
 
-                progressMap.startup("everest", perc);
-            }
+                if (pointAccum < 600) {
 
-            /*
-            $.getJSON('/d2l/api/le/1.18/{orgUnitId}/grades/values/myGradeValues/', function (grades) {
+                    progressMap.startup("everest", ((0 / 29035) * 100));
+                    console.log("start at 0 sucka!");
 
-                var pointAccum = 0,
-                    gradeArray = grades;
+                } else if (4700 > pointAccum && pointAccum >= 600) {
 
-                for (var i = 0; i < gradeArray.length; i++) {
-                    var temp = gradeArray[i].PointsNumerator || 0;
-                    pointAccum += temp;
+                    progressMap.startup("everest", ((0 / 29035) * 100));
+
+                } else if (8120 > pointAccum && pointAccum >= 4700) {
+
+                    progressMap.startup("everest", ((10000 / 29035) * 100));
+
+                } else if (11540 > pointAccum && pointAccum >= 8120) {
+
+                    progressMap.startup("everest", ((15000 / 29035) * 100));
+
+                } else if (14200 > pointAccum && pointAccum >= 11540) {
+
+                    progressMap.startup("everest", ((21000 / 29035) * 100));
+
+                } else if (17950 > pointAccum && pointAccum >= 14200) {
+
+                    progressMap.startup("everest", ((25500 / 29035) * 100));
+
+                } else if (29035 > pointAccum && pointAccum >= 17950) {
+
+                    progressMap.startup("everest", ((28000 / 29035) * 100));
+
+                } else if (pointAccum >= 29035) {
+
+                    progressMap.startup("everest", ((29035 / 29035) * 100));
+
+                } else {
+                    console.log("Help!")
                 }
 
-                console.log("Total Points ", pointAccum);
-                loadEverest(pointAccum);
-            });
-            */
+            }
 
 
             $.getJSON('/d2l/api/le/1.18/159097/grades/final/values/myGradeValue', function(grades) {
