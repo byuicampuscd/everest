@@ -1,5 +1,5 @@
 {
-  "name": "everest-point",
+  "name": "everest",
   "version": "1.0.0",
   "description": "A map displaying the accumulated points over a semester.",
   "main": "index.js",
@@ -10,13 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/byuicampuscd/everest.git"
   },
-  "author": "Andrew Gremlich",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/byuicampuscd/everest/issues"
   },
   "homepage": "https://github.com/byuicampuscd/everest#readme",
   "dependencies": {
     "valence": "github:byuicampuscd/valence"
-  }
+  },
+  "author": "Andrew Gremlich",
+  "license": "MIT"
 }
